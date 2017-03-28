@@ -225,8 +225,11 @@ class CardStack extends Component {
   render(): React.Element<*> {
     let floatingHeader = null;
     const headerMode = this._getHeaderMode();
+    const { options } = this._getScreenDetails(this.props.scene);
+
     if (headerMode === 'float') {
-      floatingHeader = this._renderHeader(this.props.scene, headerMode);
+      const isHiddenHeader = options.headerVisible === false;
+      floatingHeader = isHiddenHeader ? null : this._renderHeader(this.props.scene, headerMode);
     }
     const { navigation, position, scene, mode, scenes } = this.props;
     const { index } = navigation.state;
@@ -333,7 +336,6 @@ class CardStack extends Component {
       },
     });
 
-    const { options } = this._getScreenDetails(scene);
     const gesturesEnabled = mode === 'card' &&
       (typeof options.gesturesEnabled === 'boolean'
         ? options.gesturesEnabled
