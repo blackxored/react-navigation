@@ -351,8 +351,8 @@ class CardStack extends React.Component<Props> {
       },
     });
 
-    const gesturesEnabled = mode === 'card' &&
-      (typeof options.gesturesEnabled === 'boolean'
+    const gesturesEnabled =
+      typeof options.gesturesEnabled === 'boolean'
         ? options.gesturesEnabled
         : Platform.OS === 'ios';
 
