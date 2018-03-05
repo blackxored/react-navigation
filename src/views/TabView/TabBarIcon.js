@@ -3,11 +3,7 @@
 import * as React from 'react';
 import { Animated, View, StyleSheet } from 'react-native';
 
-import type {
-  NavigationState,
-  NavigationScreenProp,
-  ViewStyleProp,
-} from '../../TypeDefinition';
+import type { NavigationState, NavigationScreenProp, ViewStyleProp } from '../../TypeDefinition';
 
 import type { TabScene } from './TabView';
 
@@ -23,14 +19,7 @@ type Props = {
 
 export default class TabBarIcon extends React.PureComponent<Props> {
   render() {
-    const {
-      position,
-      scene,
-      navigation,
-      activeTintColor,
-      inactiveTintColor,
-      style,
-    } = this.props;
+    const { position, scene, navigation, activeTintColor, inactiveTintColor, style } = this.props;
     const { route, index } = scene;
     const { routes } = navigation.state;
     // Prepend '-1', so there are always at least 2 items in inputRange
@@ -73,12 +62,11 @@ const styles = StyleSheet.create({
     // We render the icon twice at the same position on top of each other:
     // active and inactive one, so we can fade between them:
     // Cover the whole iconContainer:
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
     alignItems: 'center',
+    alignSelf: 'center',
+    height: '100%',
     justifyContent: 'center',
+    position: 'absolute',
+    width: '100%',
   },
 });
