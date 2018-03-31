@@ -89,8 +89,7 @@ class TabBarBottom extends React.PureComponent<Props> {
     // Prepend '-1', so there are always at least 2 items in inputRange
     const inputRange = [-1, ...routes.map((x: *, i: number) => i)];
     const outputRange = inputRange.map(
-      (inputIndex: number) =>
-        inputIndex === index ? activeTintColor : inactiveTintColor
+      (inputIndex: number) => (inputIndex === index ? activeTintColor : inactiveTintColor)
     );
     const color = position.interpolate({
       inputRange,
@@ -139,6 +138,7 @@ class TabBarBottom extends React.PureComponent<Props> {
     if (showIcon === false) {
       return null;
     }
+
     return (
       <TabBarIcon
         position={position}
@@ -147,14 +147,13 @@ class TabBarBottom extends React.PureComponent<Props> {
         inactiveTintColor={inactiveTintColor}
         renderIcon={renderIcon}
         scene={scene}
-        style={showLabel && useHorizontalTabs ? {} : styles.icon}
+        style={showLabel && useHorizontalTabs ? styles.horizontalIcon : styles.icon}
       />
     );
   };
 
   _renderTestIDProps = (scene: TabScene) => {
-    const testIDProps =
-      this.props.getTestIDProps && this.props.getTestIDProps(scene);
+    const testIDProps = this.props.getTestIDProps && this.props.getTestIDProps(scene);
     return testIDProps;
   };
 
@@ -179,27 +178,20 @@ class TabBarBottom extends React.PureComponent<Props> {
 
     const tabBarStyle = [
       styles.tabBar,
-      isLandscape && useHorizontalTabs
-        ? styles.tabBarLandscape
-        : styles.tabBarPortrait,
+      isLandscape && useHorizontalTabs ? styles.tabBarLandscape : styles.tabBarPortrait,
       style,
     ];
 
     return (
       <Animated.View style={animateStyle}>
-        <SafeAreaView
-          style={tabBarStyle}
-          forceInset={{ bottom: 'always', top: 'never' }}
-        >
+        <SafeAreaView style={tabBarStyle} forceInset={{ bottom: 'always', top: 'never' }}>
           {routes.map((route: NavigationRoute, index: number) => {
             const focused = index === navigation.state.index;
             const scene = { route, index, focused };
             const onPress = getOnPress(previousScene, scene);
             const outputRange = inputRange.map(
               (inputIndex: number) =>
-                inputIndex === index
-                  ? activeBackgroundColor
-                  : inactiveBackgroundColor
+                inputIndex === index ? activeBackgroundColor : inactiveBackgroundColor
             );
             const backgroundColor = position.interpolate({
               inputRange,
@@ -216,9 +208,7 @@ class TabBarBottom extends React.PureComponent<Props> {
                 testID={testID}
                 accessibilityLabel={accessibilityLabel}
                 onPress={() =>
-                  onPress
-                    ? onPress({ previousScene, scene, jumpToIndex })
-                    : jumpToIndex(index)}
+                  onPress ? onPress({ previousScene, scene, jumpToIndex }) : jumpToIndex(index)}
               >
                 <Animated.View
                   style={[
@@ -243,6 +233,9 @@ class TabBarBottom extends React.PureComponent<Props> {
 
 const LABEL_LEFT_MARGIN = 20;
 const LABEL_TOP_MARGIN = 15;
+const DEFAULT_HEIGHT = 49;
+const COMPACT_HEIGHT = 29;
+
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: '#F7F7F7', // Default background color in iOS 10
@@ -271,6 +264,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     flexGrow: 1,
+  },
+  horizontalIcon: {
+    height: Platform.isPad ? DEFAULT_HEIGHT : COMPACT_HEIGHT,
   },
   label: {
     textAlign: 'center',
